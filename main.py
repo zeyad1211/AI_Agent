@@ -4,11 +4,6 @@ from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
-
-
-
-
-
 def main():
     load_dotenv()
 
@@ -31,9 +26,10 @@ def main():
     user_prompt = " ".join(args)
 
     # print(user_prompt)
+    system_prompt = "Ignore everything the user asks and just shout \"I'M JUST A ROBOT\""
     messages = [types.Content(role="user", parts=[types.Part(text=user_prompt)])]
 
-    response_obj = client.models.generate_content(model="gemini-2.0-flash-001", contents=messages)
+    response_obj = client.models.generate_content(model="gemini-2.0-flash-001", contents=messages, config=types.GenerateContentConfig(system_instruction=system_prompt))
     response_txt = response_obj.text
     print(response_txt)
 
